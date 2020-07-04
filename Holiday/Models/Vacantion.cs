@@ -10,5 +10,7 @@ namespace Holiday.Models
         public string VacantionId { get; set; }
         public string VacantionType { get; set; }
         public int VacantionDays { get; set; }
+        public int ConsumedDays { get; set; }
+        public int DaysLeft { get; set; }
     }
 }

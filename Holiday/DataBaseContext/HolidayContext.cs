@@ -16,5 +16,6 @@ namespace Holiday.DataBaseContext
         { }
         public DbSet <Vacantion> Vacantions { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<VacantionRequest> VacantionRequests { get; set; }
     }
 }

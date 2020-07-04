@@ -7,40 +7,39 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Holiday.DataBaseContext;
 using Holiday.Models;
+using Holiday.Services.Interfaces;
+using Holiday.Repositories.Interfaces;
 
 namespace Holiday.Controllers
 {
     public class EmployeesController : Controller
     {
-        private readonly HolidayContext _context;
-
-        public EmployeesController(HolidayContext context)
+       // private readonly HolidayContext _context;
+        private readonly IEmployee _employee;
+        private readonly IRepositoryWrapper _repositoryWrapper;
+        public EmployeesController(IEmployee employee, IRepositoryWrapper repositoryWrapper)
         {
-            _context = context;
+            _employee = employee;
+            _repositoryWrapper = repositoryWrapper;
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Employees.ToListAsync());
+            var employees = _employee.GetAllEmployees();
+
+            return View(employees);
         }
 
         // GET: Employees/Details/5
-        public async Task<IActionResult> Details(string id)
+        public IActionResult Details(string employeeId)
         {
-            if (id == null)
+            var view = _employee.GetEmployeeById(employeeId);
+            if (view == null)
             {
                 return NotFound();
             }
-
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.EmployeeId == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
+            return View(view);
         }
 
         // GET: Employees/Create
@@ -58,22 +57,22 @@ namespace Holiday.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
-                await _context.SaveChangesAsync();
+                _employee.AddEmployee(employee);
+                _repositoryWrapper.Save();
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
         }
 
         // GET: Employees/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult Edit(string employeeId)
         {
-            if (id == null)
+            if (employeeId == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = _employee.GetEmployeeById(employeeId);
             if (employee == null)
             {
                 return NotFound();
@@ -86,9 +85,9 @@ namespace Holiday.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("EmployeeId,FirstName,LastName,NumberOfDays")] Employee employee)
+        public IActionResult Edit(string employeeId, [Bind("EmployeeId,FirstName,LastName,NumberOfDays")] Employee employee)
         {
-            if (id != employee.EmployeeId)
+            if (employeeId != employee.EmployeeId)
             {
                 return NotFound();
             }
@@ -97,8 +96,8 @@ namespace Holiday.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
+                    _employee.EditEmployee(employee);
+                    _repositoryWrapper.Save();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,16 +115,21 @@ namespace Holiday.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        private bool EmployeeExists(string employeeId)
         {
-            if (id == null)
+            throw new NotImplementedException();
+        }
+
+        // GET: Employees/Delete/5
+        public IActionResult Delete(string employeeId)
+        {
+            if (employeeId == null)
             {
                 return NotFound();
             }
 
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.EmployeeId == id);
+            var employee = _employee.GetEmployeeById(employeeId);
+
             if (employee == null)
             {
                 return NotFound();
@@ -137,17 +141,17 @@ namespace Holiday.Controllers
         // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public IActionResult DeleteConfirmed(string employeeId)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            var employee = _employee.GetEmployeeById(employeeId);
+            _employee.DeleteEmployee(employee);
+            _repositoryWrapper.Save();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(string id)
-        {
-            return _context.Employees.Any(e => e.EmployeeId == id);
-        }
+        //private bool EmployeeExists(string employeeId)
+        //{
+        //    return _repositoryWrapper.Employee.Any(e => e.EmployeeId == id);
+        //}
     }
 }

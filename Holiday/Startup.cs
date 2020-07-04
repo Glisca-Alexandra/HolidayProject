@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Holiday.DataBaseContext;
+using Holiday.Repositories;
+using Holiday.Repositories.Interfaces;
+using Holiday.Services;
+using Holiday.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +36,11 @@ namespace Holiday
             var connection = @"Server = (localdb)\mssqllocaldb;Database=Holiday;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<HolidayContext>
                 (options => options.UseSqlServer(connection));
+            services.AddScoped(typeof(IRepositoryWrapper), typeof(RepositoryWrapper));
+            services.AddScoped<IVacantion, VacantionService>();
+            services.AddScoped<IEmployee, EmployeeService>();
+            services.AddScoped<IVacantionRequest, VacantionRequestService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
