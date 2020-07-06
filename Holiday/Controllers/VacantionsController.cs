@@ -15,39 +15,40 @@ namespace Holiday.Controllers
     public class VacantionsController : Controller
     {
         private readonly HolidayContext _context;
-        private readonly IVacantion _vacantion;
-        private readonly IRepositoryWrapper _repositoryWrapper;
+     
 
-        public VacantionsController(IVacantion vacantion,IRepositoryWrapper repositoryWrapper)
+        public VacantionsController(HolidayContext context)
         {
-            _vacantion = vacantion;
-            _repositoryWrapper = repositoryWrapper;
+       
+            _context = context;
         }
 
         // GET: Vacantions
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var vacantions = _vacantion.GetAllVacantions();
+           
+            return View(await _context.Vacantions.ToListAsync());
 
-            return View(vacantions);
+           
         }
 
         // GET: Vacantions/Details/5
-        public IActionResult Details(string VacantionId)
+      
+        public async Task<IActionResult> Details(string id)
         {
-            if (VacantionId == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var vacantion = _vacantion.GetVacantionById(VacantionId);
-                
-            if (vacantion == null)
+            var holiday = await _context.Vacantions
+                .FirstOrDefaultAsync(m => m.VacantionId == id);
+            if (holiday == null)
             {
                 return NotFound();
             }
 
-            return View(vacantion);
+            return View(holiday);
         }
 
         // GET: Vacantions/Create
@@ -61,32 +62,31 @@ namespace Holiday.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("VacantionId,VacantionType,VacantionDays")] Vacantion vacantion)
+        public async Task<IActionResult> Create([Bind("VacantionId,VacantionType,VacantionDays")] Vacantion vacantion)
         {
             if (ModelState.IsValid)
             {
-                _vacantion.CreateVacantion(vacantion);
-                _repositoryWrapper.Save();
+                _context.Add(vacantion);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(vacantion);
         }
 
         // GET: Vacantions/Edit/5
-        public IActionResult Edit(/*string VacantionId*/)
+        public async Task<IActionResult> Edit(string id)
         {
-            //if (VacantionId == null)
-            //{
-            //    return NotFound();
-            //}
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            //var vacantion = _vacantion.GetVacantionById(VacantionId);
-            //if (vacantion == null)
-            //{
-            //    return NotFound();
-            //}
-            //return View(vacantion);
-            return View();
+            var vacantion = await _context.Vacantions.FindAsync(id);
+            if (vacantion == null)
+            {
+                return NotFound();
+            }
+            return View(vacantion);
         }
 
         // POST: Vacantions/Edit/5
@@ -94,51 +94,49 @@ namespace Holiday.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string VacantionId, [Bind("VacantionId,VacantionType,VacantionDays")] Vacantion vacantion)
+        public async Task<IActionResult> Edit(string id, [Bind("VacantionId,VacantionType,VacantionDays,ConsumedDays,DaysLeft")] Vacantion vacantion)
         {
-            if (VacantionId != vacantion.VacantionId)
+            if (id != vacantion.VacantionId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-               // try
-               // {
-                    _vacantion.EditVacantion(vacantion);
-                    _repositoryWrapper.Save();
-                //}
-                //catch (DbUpdateConcurrencyException)
-                //{
-                //    if (!VacantionExists(vacantion.VacantionId))
-                //    {
-                //        return NotFound();
-                //    }
-                //    else
-                //    {
-                //        throw;
-                //    }
-                //}
+                try
+                {
+                    _context.Update(vacantion);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!VacantionExists(vacantion.VacantionId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             return View(vacantion);
         }
 
-        private bool VacantionExists(string VacantionId)
-        {
-            throw new NotImplementedException();
-        }
+
+
 
         // GET: Vacantions/Delete/5
-        public IActionResult Delete(string VacantionId)
+        public async Task<IActionResult> Delete(string id)
         {
-            if (VacantionId == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var vacantion = _vacantion.GetVacantionById(VacantionId);
-              
+            var vacantion = await _context.Vacantions
+                .FirstOrDefaultAsync(m => m.VacantionId == id);
             if (vacantion == null)
             {
                 return NotFound();
@@ -150,17 +148,17 @@ namespace Holiday.Controllers
         // POST: Vacantions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(string VacantionId)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var vacantion = _vacantion.GetVacantionById(VacantionId);
-            _vacantion.DeleteVacantion(vacantion);
-            _repositoryWrapper.Save();
+            var vacantion = await _context.Vacantions.FindAsync(id);
+            _context.Vacantions.Remove(vacantion);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        //private bool VacantionExists(string id)
-        //{
-        //    return _context.Vacantions.Any(e => e.VacantionId == id);
-        //}
+        private bool VacantionExists(string id)
+        {
+            return _context.Vacantions.Any(e => e.VacantionId == id);
+        }
     }
 }

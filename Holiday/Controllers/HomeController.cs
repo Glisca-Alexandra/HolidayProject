@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Holiday.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Holiday.Controllers
 {
+  
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -22,7 +24,7 @@ namespace Holiday.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles="Operational")]
         public IActionResult Privacy()
         {
             return View();

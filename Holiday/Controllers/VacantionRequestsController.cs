@@ -18,37 +18,19 @@ namespace Holiday.Controllers
         private readonly IVacantionRequest _vacantionRequest;
         private readonly IRepositoryWrapper _repositoryWrapper;
 
-        public VacantionRequestsController(IVacantionRequest vacantionRequest, IRepositoryWrapper repositoryWrapper)
+        public VacantionRequestsController(HolidayContext context)
         {
-            _vacantionRequest = vacantionRequest;
-            _repositoryWrapper = repositoryWrapper;
+           
+            _context = context;
         }
         // GET: VacantionRequests
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var vacantionRequests = _vacantionRequest.GetAllVacantionRequests();
-
-            return View(vacantionRequests);
+            return View(await _context.VacantionRequests.ToListAsync());
         }
 
 
-        // GET: VacantionRequests/Details/5
-        //public async Task<IActionResult> Details(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var vacantionRequest = await _context.VacantionRequests
-        //        .FirstOrDefaultAsync(m => m.VacantionRequestId == id);
-        //    if (vacantionRequest == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(vacantionRequest);
-        //}
+    
 
         // GET: VacantionRequests/Create
         public IActionResult Create()
@@ -61,100 +43,101 @@ namespace Holiday.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Create([Bind("VacantionRequestId,FirstName,LastName,Type,NoOfDays,Cause")] VacantionRequest vacantionRequest)
+        public async Task<IActionResult> Create([Bind("VacantionRequestId,FirstName,LastName,Type,NoOfDays,Cause")] VacantionRequest vacantionRequest)
         {
             if (ModelState.IsValid)
             {
-                _vacantionRequest.CreateVacantionRequest(vacantionRequest);
-                _repositoryWrapper.Save();
+          
+                _context.Add(vacantionRequest);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(vacantionRequest);
         }
 
-        // GET: VacantionRequests/Edit/5
-    //    public async Task<IActionResult> Edit(string id)
-    //    {
-    //        if (id == null)
-    //        {
-    //            return NotFound();
-    //        }
+       // GET: VacantionRequests/Edit/5
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-    //        var vacantionRequest = await _context.VacantionRequests.FindAsync(id);
-    //        if (vacantionRequest == null)
-    //        {
-    //            return NotFound();
-    //        }
-    //        return View(vacantionRequest);
-    //    }
+            var vacantionRequest = await _context.VacantionRequests.FindAsync(id);
+            if (vacantionRequest == null)
+            {
+                return NotFound();
+            }
+            return View(vacantionRequest);
+        }
 
-    //    // POST: VacantionRequests/Edit/5
-    //    // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-    //    // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-    //    [HttpPost]
-    //    [ValidateAntiForgeryToken]
-    //    public async Task<IActionResult> Edit(string id, [Bind("VacantionRequestId,FirstName,LastName,Type,NoOfDays,Cause")] VacantionRequest vacantionRequest)
-    //    {
-    //        if (id != vacantionRequest.VacantionRequestId)
-    //        {
-    //            return NotFound();
-    //        }
+        // POST: VacantionRequests/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [Bind("VacantionRequestId,FirstName,LastName,Type,NoOfDays,Cause")] VacantionRequest vacantionRequest)
+        {
+            if (id != vacantionRequest.VacantionRequestId)
+            {
+                return NotFound();
+            }
 
-    //        if (ModelState.IsValid)
-    //        {
-    //            try
-    //            {
-    //                _context.Update(vacantionRequest);
-    //                await _context.SaveChangesAsync();
-    //            }
-    //            catch (DbUpdateConcurrencyException)
-    //            {
-    //                if (!VacantionRequestExists(vacantionRequest.VacantionRequestId))
-    //                {
-    //                    return NotFound();
-    //                }
-    //                else
-    //                {
-    //                    throw;
-    //                }
-    //            }
-    //            return RedirectToAction(nameof(Index));
-    //        }
-    //        return View(vacantionRequest);
-    //    }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(vacantionRequest);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!VacantionRequestExists(vacantionRequest.VacantionRequestId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(vacantionRequest);
+        }
 
-    //    // GET: VacantionRequests/Delete/5
-    //    public async Task<IActionResult> Delete(string id)
-    //    {
-    //        if (id == null)
-    //        {
-    //            return NotFound();
-    //        }
+        // GET: VacantionRequests/Delete/5
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-    //        var vacantionRequest = await _context.VacantionRequests
-    //            .FirstOrDefaultAsync(m => m.VacantionRequestId == id);
-    //        if (vacantionRequest == null)
-    //        {
-    //            return NotFound();
-    //        }
+            var vacantionRequest = await _context.VacantionRequests
+                .FirstOrDefaultAsync(m => m.VacantionRequestId == id);
+            if (vacantionRequest == null)
+            {
+                return NotFound();
+            }
 
-    //        return View(vacantionRequest);
-    //    }
+            return View(vacantionRequest);
+        }
 
-    //    // POST: VacantionRequests/Delete/5
-    //    [HttpPost, ActionName("Delete")]
-    //    [ValidateAntiForgeryToken]
-    //    public async Task<IActionResult> DeleteConfirmed(string id)
-    //    {
-    //        var vacantionRequest = await _context.VacantionRequests.FindAsync(id);
-    //        _context.VacantionRequests.Remove(vacantionRequest);
-    //        await _context.SaveChangesAsync();
-    //        return RedirectToAction(nameof(Index));
-    //    }
+        // POST: VacantionRequests/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var vacantionRequest = await _context.VacantionRequests.FindAsync(id);
+            _context.VacantionRequests.Remove(vacantionRequest);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
-    //    private bool VacantionRequestExists(string id)
-    //    {
-    //        return _context.VacantionRequests.Any(e => e.VacantionRequestId == id);
-    //    }
+        private bool VacantionRequestExists(string id)
+        {
+            return _context.VacantionRequests.Any(e => e.VacantionRequestId == id);
+        }
     }
 }
