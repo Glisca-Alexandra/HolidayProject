@@ -33,6 +33,14 @@ namespace Holiday
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<HolidayContext>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+
+            });
             var connection = @"Server = (localdb)\mssqllocaldb;Database=Holiday;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<HolidayContext>
                 (options => options.UseSqlServer(connection));

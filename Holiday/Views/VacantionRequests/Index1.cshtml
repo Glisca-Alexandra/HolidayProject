@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Holiday.Models.VacantionRequest>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfDays)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cause)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfDays)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cause)
+                </td>
+                <td>
+
+                    <a asp-action="Delete" asp-route-id="@item.VacantionRequestId">Reject</a>
+                    <a asp-action="Index2" asp-route-id="@item.VacantionRequestId">Accept</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -9,6 +9,7 @@ using Holiday.DataBaseContext;
 using Holiday.Models;
 using Holiday.Repositories.Interfaces;
 using Holiday.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Holiday.Controllers
 {
@@ -24,15 +25,43 @@ namespace Holiday.Controllers
             _context = context;
         }
         // GET: VacantionRequests
+        [Authorize(Roles="Operational,Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.VacantionRequests.ToListAsync());
         }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index1()
+        {
+            return View(await _context.VacantionRequests.ToListAsync());
+        }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index2()
+        {
+            return View(await _context.VacantionRequests.ToListAsync());
+        }
 
+        [Authorize(Roles = "Operational,Admin")]
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-    
+            var holidayRequest = await _context.VacantionRequests
+                .FirstOrDefaultAsync(m => m.VacantionRequestId == id);
+            if (holidayRequest == null)
+            {
+                return NotFound();
+            }
+
+            return View(holidayRequest);
+        }
+
 
         // GET: VacantionRequests/Create
+        [Authorize(Roles = "Operational")]
         public IActionResult Create()
         {
             return View();
@@ -55,7 +84,8 @@ namespace Holiday.Controllers
             return View(vacantionRequest);
         }
 
-       // GET: VacantionRequests/Edit/5
+        // GET: VacantionRequests/Edit/5
+        [Authorize(Roles = "Operational")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -76,6 +106,7 @@ namespace Holiday.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Operational")]
         public async Task<IActionResult> Edit(string id, [Bind("VacantionRequestId,FirstName,LastName,Type,NoOfDays,Cause")] VacantionRequest vacantionRequest)
         {
             if (id != vacantionRequest.VacantionRequestId)
@@ -107,6 +138,7 @@ namespace Holiday.Controllers
         }
 
         // GET: VacantionRequests/Delete/5
+        [Authorize(Roles = "Operational,Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -127,6 +159,7 @@ namespace Holiday.Controllers
         // POST: VacantionRequests/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Operational,Admin")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var vacantionRequest = await _context.VacantionRequests.FindAsync(id);

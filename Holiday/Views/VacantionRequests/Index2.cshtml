@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Holiday.Models.VacantionRequest>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Accepted requests</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoOfDays)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cause)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoOfDays)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cause)
+                </td>
+             
+            </tr>
+        }
+    </tbody>
+</table>

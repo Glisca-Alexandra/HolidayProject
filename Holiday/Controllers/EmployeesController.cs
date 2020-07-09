@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Holiday.Controllers
 {
-    [Authorize(Roles="HumanResource")]
+  
     public class EmployeesController : Controller
     {
         private readonly HolidayContext _context;
@@ -25,12 +25,18 @@ namespace Holiday.Controllers
         }
 
         // GET: Employees
+        [Authorize(Roles = "HumanResource")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Employees.ToListAsync());
         }
-
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index1()
+        {
+            return View(await _context.Employees.ToListAsync());
+        }
         // GET: Employees/Details/5
+        [Authorize(Roles = "HumanResource")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -47,7 +53,7 @@ namespace Holiday.Controllers
 
             return View(employee);
         }
-
+        [Authorize(Roles = "HumanResource")]
 
         // GET: Employees/Create
         public IActionResult Create()
@@ -60,7 +66,7 @@ namespace Holiday.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName,NumberOfDays")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName,HolidayType,NumberOfDays,NumberOfDaysConsumed,NumberOfDaysLeft")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -72,6 +78,7 @@ namespace Holiday.Controllers
         }
 
         // GET: Employees/Edit/5
+        [Authorize(Roles = "HumanResource")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -92,7 +99,8 @@ namespace Holiday.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string employeeId, [Bind("EmployeeId,FirstName,LastName,NumberOfDays")] Employee employee)
+        [Authorize(Roles = "HumanResource")]
+        public async Task<IActionResult> Edit(string employeeId, [Bind("EmployeeId,FirstName,LastName,HolidayType,NumberOfDays,NumberOfDaysConsumed,NumberOfDaysLeft")] Employee employee)
         {
             if (employeeId != employee.EmployeeId)
             {
@@ -125,6 +133,7 @@ namespace Holiday.Controllers
 
 
         // GET: Employees/Delete/5
+        [Authorize(Roles = "HumanResource")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -145,6 +154,7 @@ namespace Holiday.Controllers
         // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "HumanResource")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var employee = await _context.Employees.FindAsync(id);

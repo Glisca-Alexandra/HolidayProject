@@ -1,14 +1,12 @@
-﻿@model IEnumerable<Holiday.Models.VacantionRequest>
+﻿@model IEnumerable<Holiday.Models.Employee>
 
 @{
     ViewData["Title"] = "Index";
 }
 
+<h1>Employees</h1>
 
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -19,19 +17,23 @@
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                @Html.DisplayNameFor(model => model.HolidayType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NoOfDays)
+                @Html.DisplayNameFor(model => model.NumberOfDays)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Cause)
+                @Html.DisplayNameFor(model => model.NumberOfDaysConsumed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfDaysLeft)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -40,20 +42,19 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type)
+                @Html.DisplayFor(modelItem => item.HolidayType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NoOfDays)
+                @Html.DisplayFor(modelItem => item.NumberOfDays)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Cause)
+                @Html.DisplayFor(modelItem => item.NumberOfDaysConsumed)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.VacantionRequestId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.VacantionRequestId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.VacantionRequestId">Cancel</a>
+                @Html.DisplayFor(modelItem => item.NumberOfDaysLeft)
             </td>
+
         </tr>
-}
+        }
     </tbody>
 </table>

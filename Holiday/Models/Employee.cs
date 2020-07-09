@@ -13,7 +13,12 @@ namespace Holiday.Models
 
         public string LastName { get; set; }
 
+        public string HolidayType { get; set; }
         public int NumberOfDays { get; set; }
+        public int NumberOfDaysConsumed { get; set; }
+
+        public int NumberOfDaysLeft { get; set; }
+
 
         public Vacantion Vacantion { get; set; }
     }

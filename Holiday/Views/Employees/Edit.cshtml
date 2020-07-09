@@ -24,9 +24,24 @@
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="HolidayType" class="control-label"></label>
+                <input asp-for="HolidayType" class="form-control" />
+                <span asp-validation-for="HolidayType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="NumberOfDays" class="control-label"></label>
                 <input asp-for="NumberOfDays" class="form-control" />
                 <span asp-validation-for="NumberOfDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfDaysConsumed" class="control-label"></label>
+                <input asp-for="NumberOfDaysConsumed" class="form-control" />
+                <span asp-validation-for="NumberOfDaysConsumed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfDaysLeft" class="control-label"></label>
+                <input asp-for="NumberOfDaysLeft" class="form-control" />
+                <span asp-validation-for="NumberOfDaysLeft" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

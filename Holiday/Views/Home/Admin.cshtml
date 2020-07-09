@@ -1,0 +1,35 @@
+﻿@section head{
+    <style>
+        body {
+            background-image: url("https://images.pexels.com/photos/762686/pexels-photo-762686.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+            margin: 0;
+        }
+
+        .btn1 {
+            color: lightgreen;
+            border-radius: 20px;
+            margin: 10px;
+        }
+    </style>
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome to Admin Page</h1>
+
+</div>
+
+<div class="text-left">
+    <div class="btn1">
+        <a class="btn btn-success" asp-controller="VacantionRequests" asp-action="Index1">View requests</a>
+
+
+    </div>
+</div>
+
+<div class="text-left">
+    <div class="btn1">
+
+        <a class="btn btn-success" asp-controller="Employees" asp-action="Index1">Employees</a>
+
+    </div>
+</div>
+

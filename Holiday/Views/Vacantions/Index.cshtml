@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -30,11 +30,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.VacantionDays)
             </td>
+
+            @if (Int32.Parse(item.VacantionId) != 1 && Int32.Parse(item.VacantionId) != 2)
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.VacantionId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.VacantionId">Delete</a>|
+                    @*<a asp-action="Details" asp-route-id="@item.VacantionId">Details</a> |*@
+                    @*<a asp-action="Delete" asp-route-id="@item.VacantionId">Delete</a>*@
+                </td>
+            }
             <td>
-                <a asp-action="Edit" asp-route-id="@item.VacantionId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.VacantionId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.VacantionId">Delete</a>
+            <a asp-action="Details" asp-route-id="@item.VacantionId">Details</a> 
             </td>
+
         </tr>
 }
     </tbody>
