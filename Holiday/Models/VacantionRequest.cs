@@ -11,6 +11,7 @@ namespace Holiday.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Type { get; set; }
+        public DateTime StartDate { get; set; }
         public int NoOfDays { get; set; }
         public string Cause { get; set; }
     }

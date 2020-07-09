@@ -4,7 +4,14 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+@section head{
+    <style>
+        body {
+            background-color:darkgrey;
+            margin: 0;
+        }
+    </style>
+    }
 
 <h4>Employee</h4>
 <hr />
@@ -36,6 +43,11 @@
                 <label asp-for="NumberOfDays" class="control-label"></label>
                 <input asp-for="NumberOfDays" class="form-control" />
                 <span asp-validation-for="NumberOfDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NumberOfDaysConsumed" class="control-label"></label>

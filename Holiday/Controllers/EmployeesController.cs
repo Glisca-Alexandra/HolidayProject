@@ -66,7 +66,7 @@ namespace Holiday.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName,HolidayType,NumberOfDays,NumberOfDaysConsumed,NumberOfDaysLeft")] Employee employee)
+        public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName,HolidayType,NumberOfDays,Date,NumberOfDaysConsumed,NumberOfDaysLeft")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace Holiday.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "HumanResource")]
-        public async Task<IActionResult> Edit(string employeeId, [Bind("EmployeeId,FirstName,LastName,HolidayType,NumberOfDays,NumberOfDaysConsumed,NumberOfDaysLeft")] Employee employee)
+        public async Task<IActionResult> Edit(string employeeId, [Bind("EmployeeId,FirstName,LastName,HolidayType,NumberOfDays,Date,NumberOfDaysConsumed,NumberOfDaysLeft")] Employee employee)
         {
             if (employeeId != employee.EmployeeId)
             {

@@ -5,6 +5,12 @@
 }
 
 
+<style>
+    body {
+        background-color:darkgrey;
+        margin: 0;
+    }
+</style>
 
 
 <table class="table">
@@ -28,21 +34,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VacantionType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VacantionDays)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ConsumedDays)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DaysLeft)
-            </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VacantionType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VacantionDays)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConsumedDays)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DaysLeft)
+                </td>
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

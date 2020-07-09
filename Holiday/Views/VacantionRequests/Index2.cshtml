@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    body {
+        background-color:darkgrey;
+        margin: 0;
+    }
+</style>
 
 
 <h1>Accepted requests</h1>
@@ -18,6 +24,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NoOfDays)
@@ -42,12 +51,15 @@
                     @Html.DisplayFor(modelItem => item.Type)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.NoOfDays)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cause)
                 </td>
-             
+
             </tr>
         }
     </tbody>

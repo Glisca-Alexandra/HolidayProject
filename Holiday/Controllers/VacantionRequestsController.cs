@@ -16,8 +16,7 @@ namespace Holiday.Controllers
     public class VacantionRequestsController : Controller
     {
         private readonly HolidayContext _context;
-        private readonly IVacantionRequest _vacantionRequest;
-        private readonly IRepositoryWrapper _repositoryWrapper;
+  
 
         public VacantionRequestsController(HolidayContext context)
         {
@@ -72,7 +71,7 @@ namespace Holiday.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VacantionRequestId,FirstName,LastName,Type,NoOfDays,Cause")] VacantionRequest vacantionRequest)
+        public async Task<IActionResult> Create([Bind("VacantionRequestId,FirstName,LastName,Type,StartDate,NoOfDays,Cause")] VacantionRequest vacantionRequest)
         {
             if (ModelState.IsValid)
             {
@@ -107,7 +106,7 @@ namespace Holiday.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Operational")]
-        public async Task<IActionResult> Edit(string id, [Bind("VacantionRequestId,FirstName,LastName,Type,NoOfDays,Cause")] VacantionRequest vacantionRequest)
+        public async Task<IActionResult> Edit(string id, [Bind("VacantionRequestId,FirstName,LastName,Type,StartDate,NoOfDays,Cause")] VacantionRequest vacantionRequest)
         {
             if (id != vacantionRequest.VacantionRequestId)
             {

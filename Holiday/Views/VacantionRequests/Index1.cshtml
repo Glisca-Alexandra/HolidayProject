@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    body {
+             background-color:darkgrey;
+        margin: 0;
+    }
+</style>
 
 
 <table class="table">
@@ -16,6 +22,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NoOfDays)
@@ -38,6 +47,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NoOfDays)

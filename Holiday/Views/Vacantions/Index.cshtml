@@ -4,6 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    body {
+         background-color:darkgrey;
+        margin: 0;
+    }
+</style>
 
 
 <p>
@@ -22,29 +28,30 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VacantionType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VacantionDays)
-            </td>
-
-            @if (Int32.Parse(item.VacantionId) != 1 && Int32.Parse(item.VacantionId) != 2)
-            {
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.VacantionId">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.VacantionId">Delete</a>|
-                    @*<a asp-action="Details" asp-route-id="@item.VacantionId">Details</a> |*@
-                    @*<a asp-action="Delete" asp-route-id="@item.VacantionId">Delete</a>*@
+                    @Html.DisplayFor(modelItem => item.VacantionType)
                 </td>
-            }
-            <td>
-            <a asp-action="Details" asp-route-id="@item.VacantionId">Details</a> 
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VacantionDays)
+                </td>
 
-        </tr>
-}
+                @if (Int32.Parse(item.VacantionId) != 1 && Int32.Parse(item.VacantionId) != 2)
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.VacantionId">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.VacantionId">Delete</a>|
+                        @*<a asp-action="Details" asp-route-id="@item.VacantionId">Details</a> |*@
+                        @*<a asp-action="Delete" asp-route-id="@item.VacantionId">Delete</a>*@
+                    </td>
+                }
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.VacantionId">Details</a>
+                </td>
+
+            </tr>
+        }
     </tbody>
 </table>

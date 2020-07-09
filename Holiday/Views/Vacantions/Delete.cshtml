@@ -4,7 +4,12 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<style>
+    body {
+        background-color: darkgrey;
+        margin: 0;
+    }
+</style>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
@@ -36,7 +41,7 @@
             @Html.DisplayFor(model => model.DaysLeft)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="VacantionId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
